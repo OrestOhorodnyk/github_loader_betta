@@ -1,7 +1,7 @@
 from datetime import datetime
-from app import db, login_manager
 from flask_login import UserMixin
-from sqlalchemy import DateTime, desc
+from github_loader import db, login_manager
+from sqlalchemy import DateTime
 
 
 @login_manager.user_loader
