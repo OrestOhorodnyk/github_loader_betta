@@ -1,6 +1,8 @@
 import os
 from github.AuthenticatedUser import AuthenticatedUser
 from github.Repository import Repository
+from github.GithubException import GithubException
+from github_loader import LOGGER
 
 project_file_extensions = ['py', 'css', 'html', 'Dockerfile']
 
@@ -28,18 +30,27 @@ def create_repo(user: AuthenticatedUser, name: str, is_private: bool = False, au
     :param auto_init: if True repo will be initiated and README.md file will be added to the master branch
      :return: new Repository obj
     """
-    return user.create_repo(name=name, private=is_private, auto_init=auto_init)
+    try:
+        repo = user.create_repo(name=name, private=is_private, auto_init=auto_init)
+    except GithubException as e:
+        LOGGER.error(f"Failed to create repository due to error {e}")
+        raise e
+    LOGGER.info(f"Repository {name} created")
+    return repo
 
 
-def load_project_to_repo(repo: Repository, branch: str = 'master')->None:
+def load_project_to_repo(repo: Repository, branch: str = 'master') -> None:
     """
     This method will load project to the repository
     :param repo: user's repo
     :param branch: branch to commit
     """
-    for file_path in project_files(os.getcwd()):
-        with open(file_path) as f:
-            content = f.read()
-        repo_path = file_path.split('DR')[-1]
-        repo.create_file(path=repo_path[1:], message="initial_commit", content=content, branch=branch)
-
+    try:
+        for file_path in project_files(os.getcwd()):
+            with open(file_path) as f:
+                content = f.read()
+            repo_path = file_path.split('DR')[-1]
+            repo.create_file(path=repo_path[1:], message="initial_commit", content=content, branch=branch)
+    except GithubException as e:
+        LOGGER.error(f"Failed to load files repository due to error {e}")
+    LOGGER.info(f"Files loaded to the repository {repo.full_name}")

@@ -1,3 +1,6 @@
+"""
+Module database models
+"""
 from datetime import datetime
 from flask_login import UserMixin
 from github_loader import db, login_manager
