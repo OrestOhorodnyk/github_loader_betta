@@ -27,10 +27,15 @@ sudo docker build -t github_app .
 Wait until docker install all dependencies(it may take 5 min)
 
 Then docker run all a container
-
+To use default configuration (default secret key and disabled debug mode) run i terminal:
 ```
 sudo docker run -d -p 5000:5000 --name github_loader github_app
 ```
+If you want to set you own secret key use this command:
+```
+docker run -d -p 5000:5000 -e SECRET_KEY='new_key' -e --name github_loader github_app
+``` 
+
 
 Wait until consumer app give you message like this :"connection with Kafka broker successfully established"
 
@@ -52,3 +57,19 @@ confirmation  message.
 'Logout' button in top left corner
 
 ## Debuging
+To run the app in debug mode use 
+```
+docker run --rm -d -p 5000:5000 DEBUG_MODE=True --name github_loader github_app
+```
+You may view the container logs running this command:
+```
+docker docker logs -f github_loader
+```
+Also you may find log file using the following commands:
+```
+docker exec -it github_loader bash
+```
+then navigate to the log directory
+```
+cd /app/logs
+```
