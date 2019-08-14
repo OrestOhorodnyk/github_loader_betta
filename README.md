@@ -22,7 +22,7 @@ cd github_loader
 sudo docker build -t github_app .
 ```
 
-### Installing
+### Installation
 
 Wait until docker install all dependencies(it may take 5 min)
 
@@ -56,7 +56,7 @@ confirmation  message.
 4. After successful repository creation you can logout by clicking on the 
 'Logout' button in top left corner
 
-## Debuging
+## Debugging in Docker container
 To run the app in debug mode use 
 ```
 docker run --rm -d -p 5000:5000 DEBUG_MODE=True --name github_loader github_app
@@ -73,3 +73,28 @@ then navigate to the log directory
 ```
 cd /app/logs
 ```
+
+# Running the app without docker 
+
+## Requirments
+- python 3.7 
+- virtualenv
+- pip
+
+### Installation
+
+1. Clone the project, cd to the project
+```
+git clone https://github.com/OrestOhorodnyk/github_loader.git
+```
+2. Create and activate virtualenv with python 3.7
+3. Install required packages
+```
+pip install -r github_loader/requirements.txt
+```
+4. Run the app
+```
+python run.py
+```
+
+#Enjoy!
