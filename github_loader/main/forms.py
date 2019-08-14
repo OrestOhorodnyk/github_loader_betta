@@ -7,4 +7,4 @@ class LoginForm(FlaskForm):
     user_name = StringField('User Name', validators=[DataRequired(), Length(min=2, max=50)])
     password = PasswordField('Password', validators=[DataRequired()])
     remember = BooleanField('Remember Me')
-    submit = SubmitField('Login')
+    submit = SubmitField('Create new repository')
